@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <rich-grid :options="grid" :data="rows">
+      <rich-grid :options="options" :columns="columns" :data="rows">
           <template slot="body" slot-scope="row"><strong>{{row.data.title}}</strong><br/>{{row.data.body}}</template>
       </rich-grid>
   </div>
@@ -8,6 +8,12 @@
 
 <script>
 import richGrid from 'vue-rich-grid'
+import axiosMixin from 'vue-rich-grid-axios';
+
+// we can add mixins to our richgrid
+// before Vue attatches your component
+richGrid.mixins = [axiosMixin];
+
 export default {
   name: 'app',
   components: {
@@ -15,7 +21,8 @@ export default {
   },
   data () {
     return {
-        rows: [{
+        rows: [
+            {
                 userId: 1,
                 id: 1,
                 title: "1 - sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
@@ -50,21 +57,21 @@ export default {
                 body: "est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque fugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis qui aperiam non debitis possimus qui neque nisi nulla",
             },
         ],
-        grid: {
-            noData: 'No data found',
+        columns: [{
+            id : "id",
+            width: 40,
+            sortable: true,
+            text: 'Id',
+            align:"left",
+        }, {
+            id : "body",
+            text: 'Body',
+            align:"left",
+        }],
+        options: {
+            noDataText: 'No data found',
             baseParams: {
             },
-            columns: [{
-                id : "id",
-                width: 40,
-                sortable: true,
-                text: 'Id',
-                align:"left",
-            }, {
-                id : "body",
-                text: 'Body',
-                align:"left",
-            }],
         },
     }
   }
